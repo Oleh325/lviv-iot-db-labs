@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost/db_jdbc_template
+    url: jdbc:mysql://localhost/yatskiv
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
