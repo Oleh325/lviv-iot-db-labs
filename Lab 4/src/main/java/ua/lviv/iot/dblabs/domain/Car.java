@@ -13,7 +13,7 @@ public class Car {
     private String color;
     private String transmissionType;
     private Integer seatsCount;
-    private Integer hasAC;
+    private Boolean hasAC;
     private Float baggageCapacityKG;
     private Float rentCostPerDayUSD;
     private String fuelType;

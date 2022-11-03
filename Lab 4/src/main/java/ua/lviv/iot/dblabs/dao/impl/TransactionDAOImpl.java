@@ -3,11 +3,12 @@ package ua.lviv.iot.dblabs.dao.impl;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ua.lviv.iot.dblabs.dao.TransactionDAO;
 import ua.lviv.iot.dblabs.domain.Transaction;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     @Override
     public List<Transaction> findAll() {
-        return jdbcTemplate.query(FIND_ALL, BeanPropertyRowMapper.newInstance(Transaction.class));
+        return jdbcTemplate.query(FIND_ALL, (rs, rowNum) -> getTransactionFromResultSet(rs));
     }
 
     @Override
@@ -34,7 +35,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         Optional<Transaction> transaction;
         try {
             transaction = Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID,
-                    BeanPropertyRowMapper.newInstance(Transaction.class), id));
+                    (rs, rowNum) -> getTransactionFromResultSet(rs), id));
         } catch (EmptyResultDataAccessException e) {
             transaction = Optional.empty();
         }
@@ -54,5 +55,12 @@ public class TransactionDAOImpl implements TransactionDAO {
     @Override
     public int delete(String id) {
         return jdbcTemplate.update(DELETE, id);
+    }
+
+    private Transaction getTransactionFromResultSet(ResultSet rs) throws SQLException {
+        return new Transaction(
+                rs.getString("id"),
+                rs.getFloat("total_usd")
+        );
     }
 }

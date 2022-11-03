@@ -51,10 +51,9 @@ CREATE TABLE `car` (
     `rent_cost_per_day_usd` float NOT NULL,
     `fuel_type` enum('gas','petrol','diesel','electric','other') NOT NULL,
     `additional_info` varchar(200) DEFAULT NULL,
-    `parking_id` int NOT NULL,
+    `parking_id` int DEFAULT NULL,
     PRIMARY KEY (`id`),
-    KEY `fk_car_parking_idx` (`parking_id`),
-    CONSTRAINT `fk_car_parking` FOREIGN KEY (`parking_id`) REFERENCES `parking` (`id`)
+    KEY `fk_car_parking_idx` (`parking_id`)
 ) ENGINE=InnoDB;
 
 

@@ -3,10 +3,13 @@ package ua.lviv.iot.dblabs.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.lviv.iot.dblabs.dao.ParkingDAO;
+import ua.lviv.iot.dblabs.domain.Car;
 import ua.lviv.iot.dblabs.domain.Parking;
+import ua.lviv.iot.dblabs.service.CarService;
 import ua.lviv.iot.dblabs.service.ParkingService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -14,6 +17,9 @@ public class ParkingServiceImpl implements ParkingService {
 
         @Autowired
         private ParkingDAO parkingDAO;
+
+        @Autowired
+        private CarService carService;
 
         @Override
         public List<Parking> findAll() {
@@ -37,6 +43,11 @@ public class ParkingServiceImpl implements ParkingService {
 
         @Override
         public int delete(Integer id) {
+                for (Car car : carService.findByParkingId(id)) {
+                        car.setParkingId(null);
+                        carService.update(car.getId(), car);
+                }
+
                 return parkingDAO.delete(id);
         }
 

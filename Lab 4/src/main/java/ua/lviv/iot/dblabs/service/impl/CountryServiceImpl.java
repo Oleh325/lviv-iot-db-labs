@@ -3,7 +3,9 @@ package ua.lviv.iot.dblabs.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.lviv.iot.dblabs.dao.CountryDAO;
+import ua.lviv.iot.dblabs.domain.City;
 import ua.lviv.iot.dblabs.domain.Country;
+import ua.lviv.iot.dblabs.service.CityService;
 import ua.lviv.iot.dblabs.service.CountryService;
 
 import java.util.List;
@@ -14,6 +16,9 @@ public class CountryServiceImpl implements CountryService {
 
     @Autowired
     private CountryDAO countryDAO;
+
+    @Autowired
+    private CityService cityService;
 
     @Override
     public List<Country> findAll() {
@@ -37,6 +42,12 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public int delete(Integer id) {
+        for (City city : cityService.findAll()) {
+            if (city.getCountryId().equals(id)) {
+                cityService.delete(city.getId());
+            }
+        }
+
         return countryDAO.delete(id);
     }
 }

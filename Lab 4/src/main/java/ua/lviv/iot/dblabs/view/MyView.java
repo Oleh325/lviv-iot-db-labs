@@ -202,7 +202,7 @@ public class MyView {
         System.out.println("Input 'seats_count': ");
         Integer seatsCount = Integer.valueOf(input.nextLine());
         System.out.println("Input 'has_ac' ('true' or 'false'): ");
-        Integer hasAC = Objects.equals(input.nextLine(), "true") ? 1 : 0;
+        Boolean hasAC = Boolean.valueOf(input.nextLine());
         System.out.println("Input 'baggage_capacity_kg': ");
         Float baggageCapacityKG = Float.valueOf(input.nextLine());
         System.out.println("Input 'rent_cost_per_day_usd': ");
@@ -240,7 +240,7 @@ public class MyView {
         System.out.println("Input new 'seats_count': ");
         Integer seatsCount = Integer.valueOf(input.nextLine());
         System.out.println("Input new 'has_ac' ('true' or 'false'): ");
-        Integer hasAC = Objects.equals(input.nextLine(), "true") ? 1 : 0;
+        Boolean hasAC = Boolean.valueOf(input.nextLine());
         System.out.println("Input new 'baggage_capacity_kg': ");
         Float baggageCapacityKG = Float.valueOf(input.nextLine());
         System.out.println("Input new 'rent_cost_per_day_usd': ");
