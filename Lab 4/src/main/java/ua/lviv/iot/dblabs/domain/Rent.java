@@ -4,15 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Time;
+import java.sql.Timestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class Rent {
     private Integer id;
-    private Time dateOfRent;
-    private Time endDateOfRent;
+    private Timestamp dateOfRent;
+    private Timestamp endDateOfRent;
     private String paymentType;
     private String transactionId;
     private Integer carId;

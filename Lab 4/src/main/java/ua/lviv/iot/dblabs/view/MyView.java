@@ -5,6 +5,8 @@ import ua.lviv.iot.dblabs.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.*;
 
 @Component
@@ -30,7 +32,7 @@ public class MyView {
     private final Map<String, String> menu;
     private final Map<String, Printable> methodsMenu;
     private final Scanner input = new Scanner(System.in);
-    private final Car nullBook = new Car(null, null, null, null, null, null, null, null, null, null);
+    private final Car nullCar = new Car(null, null, null, null, null, null, null, null, null, null, null);
     private final City nullCity = new City(null, null, null);
     private final Country nullCountry = new Country(null, null);
     private final Driver nullDriver = new Driver(null, null, null, null, null, null);
@@ -74,7 +76,7 @@ public class MyView {
         menu.put("42", "  42 - Update Driver");
         menu.put("43", "  43 - Delete from Driver");
         menu.put("44", "  44 - Find all Drivers");
-        menu.put("45", "  45 - Find Driver by ID");
+        menu.put("45", "  45 - Find Driver by license_number");
         menu.put("46", "  46 - Find Drivers by surname");
 
         menu.put("5", "   5 - Table: Fine");
@@ -83,7 +85,7 @@ public class MyView {
         menu.put("53", "  53 - Delete from Fine");
         menu.put("54", "  54 - Find all Fines");
         menu.put("55", "  55 - Find Fine by ID");
-        menu.put("56", "  56 - Find Fine by driver_license_number");
+        menu.put("56", "  56 - Find Fines by driver_license_number");
 
         menu.put("6", "   6 - Table: Parking");
         menu.put("61", "  61 - Create Parking");
@@ -91,7 +93,7 @@ public class MyView {
         menu.put("63", "  63 - Delete from Parking");
         menu.put("64", "  64 - Find all Parkings");
         menu.put("65", "  65 - Find Parking by ID");
-        menu.put("66", "  66 - Find Parking by city_id");
+        menu.put("66", "  66 - Find Parkings by city_id");
 
         menu.put("7", "   7 - Table: Rent");
         menu.put("71", "  71 - Create Rent");
@@ -99,9 +101,9 @@ public class MyView {
         menu.put("73", "  73 - Delete from Rent");
         menu.put("74", "  74 - Find all Rents");
         menu.put("75", "  75 - Find Rent by ID");
-        menu.put("76", "  76 - Find Rent by car_id");
-        menu.put("77", "  77 - Find Rent by driver_license_number");
-        menu.put("78", "  78 - Find Rent in date range from _ to _");
+        menu.put("76", "  76 - Find Rents by car_id");
+        menu.put("77", "  77 - Find Rents by driver_license_number");
+        menu.put("78", "  78 - Find Rents in date range from _ to _");
 
         menu.put("8", "   8 - Table: Transaction");
         menu.put("81", "  81 - Create Transaction");
@@ -131,19 +133,58 @@ public class MyView {
         methodsMenu.put("24", this::findAllCities);
         methodsMenu.put("25", this::findCityById);
 
-        methodsMenu.put("31", this::createPerson);
-        methodsMenu.put("32", this::updatePerson);
-        methodsMenu.put("33", this::deleteFromPerson);
-        methodsMenu.put("34", this::findAllPersons);
-        methodsMenu.put("35", this::findPersonById);
-        methodsMenu.put("36", this::findAllBooksById);
-        methodsMenu.put("37", this::addBookByNameToPersonBySurname);
+        methodsMenu.put("31", this::createCountry);
+        methodsMenu.put("32", this::updateCountry);
+        methodsMenu.put("33", this::deleteFromCountry);
+        methodsMenu.put("34", this::findAllCountries);
+        methodsMenu.put("35", this::findCountryById);
+
+        methodsMenu.put("41", this::createDriver);
+        methodsMenu.put("42", this::updateDriver);
+        methodsMenu.put("43", this::deleteFromDriver);
+        methodsMenu.put("44", this::findAllDrivers);
+        methodsMenu.put("45", this::findDriverById);
+        methodsMenu.put("46", this::findDriversBySurname);
+
+        methodsMenu.put("51", this::createFine);
+        methodsMenu.put("52", this::updateFine);
+        methodsMenu.put("53", this::deleteFromFine);
+        methodsMenu.put("54", this::findAllFines);
+        methodsMenu.put("55", this::findFineById);
+        methodsMenu.put("56", this::findFinesByDriverLicenseNumber);
+
+        methodsMenu.put("61", this::createParking);
+        methodsMenu.put("62", this::updateParking);
+        methodsMenu.put("63", this::deleteFromParking);
+        methodsMenu.put("64", this::findAllParkings);
+        methodsMenu.put("65", this::findParkingById);
+        methodsMenu.put("66", this::findParkingsByCityId);
+
+        methodsMenu.put("71", this::createRent);
+        methodsMenu.put("72", this::updateRent);
+        methodsMenu.put("73", this::deleteFromRent);
+        methodsMenu.put("74", this::findAllRents);
+        methodsMenu.put("75", this::findRentById);
+        methodsMenu.put("76", this::findRentsByCarId);
+        methodsMenu.put("77", this::findRentsByDriverLicenseNumber);
+        methodsMenu.put("78", this::findRentsInDateRangeFromTo);
+
+        methodsMenu.put("81", this::createTransaction);
+        methodsMenu.put("82", this::updateTransaction);
+        methodsMenu.put("83", this::deleteFromTransaction);
+        methodsMenu.put("84", this::findAllTransactions);
+        methodsMenu.put("85", this::findTransactionById);
     }
 
     private void selectAllTable() {
-        findAllBooks();
+        findAllCars();
         findAllCities();
-        findAllPersons();
+        findAllCountries();
+        findAllDrivers();
+        findAllFines();
+        findAllParkings();
+        findAllRents();
+        findAllTransactions();
     }
 
     // CAR
@@ -241,7 +282,7 @@ public class MyView {
         Integer id = Integer.valueOf((input.nextLine()));
 
         Optional<Car> car = carController.findById(id);
-        System.out.println(car.orElse(nullBook));
+        System.out.println(car.orElse(nullCar));
     }
 
     private void findCarsByModel() {
@@ -286,35 +327,39 @@ public class MyView {
         }
     }
 
-    //endregion
-    // region CITY ---------------------------------------------------
+    // CITY
     private void createCity() {
-        System.out.println("Input 'city_name': ");
-        String cityName = input.nextLine();
+        System.out.println("Input 'name': ");
+        String name = input.nextLine();
+        System.out.println("Input 'country_id': ");
+        Integer countryId = Integer.valueOf(input.nextLine());
 
-        City city = new City(cityName);
+        City city = new City(null, name, countryId);
 
         int count = cityController.create(city);
         System.out.printf("There are created %d rows\n", count);
     }
 
     private void updateCity() {
-        System.out.println("Input 'city_name': ");
-        String cityName = input.nextLine();
-        System.out.println("Input new 'city_name': ");
-        String newCityName = input.nextLine();
+        System.out.println("Input 'id': ");
+        Integer id = Integer.valueOf(input.nextLine());
 
-        City city = new City(newCityName);
+        System.out.println("Input new 'name': ");
+        String name = input.nextLine();
+        System.out.println("Input new 'country_id': ");
+        Integer countryId = Integer.valueOf(input.nextLine());
 
-        int count = cityController.update(cityName, city);
+        City city = new City(null, name, countryId);
+
+        int count = cityController.update(id, city);
         System.out.printf("There are updated %d rows\n", count);
     }
 
     private void deleteFromCity() {
-        System.out.println("Input 'city_name': ");
-        String cityName = input.nextLine();
+        System.out.println("Input 'id': ");
+        Integer id = Integer.valueOf(input.nextLine());
 
-        int count = cityController.delete(cityName);
+        int count = cityController.delete(id);
         System.out.printf("There are deleted %d rows\n", count);
     }
 
@@ -327,97 +372,424 @@ public class MyView {
     }
 
     private void findCityById() {
-        System.out.println("Input 'city_name': ");
-        String cityName = input.nextLine();
+        System.out.println("Input 'id': ");
+        Integer id = Integer.valueOf(input.nextLine());
 
-        Optional<City> city = cityController.findById(cityName);
+        Optional<City> city = cityController.findById(id);
         System.out.println(city.orElse(nullCity));
     }
 
-    // endregion
-    // region PERSON -------------------------------------------------
-    private void createPerson() {
-        System.out.println("Input 'surname': ");
-        String surname = input.nextLine();
+    // COUNTRY
+
+    private void createCountry() {
         System.out.println("Input 'name': ");
         String name = input.nextLine();
-        System.out.println("Input 'city': ");
-        String city = input.nextLine();
-        System.out.println("Input 'email': ");
-        String email = input.nextLine();
 
-        Person person = new Person(null, surname, name, city, email);
+        Country country = new Country(null, name);
 
-        int count = personController.create(person);
+        int count = countryController.create(country);
         System.out.printf("There are created %d rows\n", count);
     }
 
-    private void updatePerson() {
+    private void updateCountry() {
         System.out.println("Input 'id': ");
-        Integer id = Integer.valueOf((input.nextLine()));
+        Integer id = Integer.valueOf(input.nextLine());
 
-        System.out.println("Input new 'surname': ");
-        String surname = input.nextLine();
         System.out.println("Input new 'name': ");
         String name = input.nextLine();
-        System.out.println("Input new 'city': ");
-        String city = input.nextLine();
-        System.out.println("Input new 'email': ");
-        String email = input.nextLine();
 
-        Person person = new Person(null, surname, name, city, email);
+        Country country = new Country(null, name);
 
-        int count = personController.update(id, person);
+        int count = countryController.update(id, country);
         System.out.printf("There are updated %d rows\n", count);
     }
 
-    private void deleteFromPerson() {
+    private void deleteFromCountry() {
         System.out.println("Input 'id': ");
-        Integer id = Integer.valueOf((input.nextLine()));
+        Integer id = Integer.valueOf(input.nextLine());
 
-        int count = personController.delete(id);
+        int count = countryController.delete(id);
         System.out.printf("There are deleted %d rows\n", count);
     }
 
-    private void findAllPersons() {
-        System.out.println("\nTable: PERSON");
-        List<Person> people = personController.findAll();
-        for (Person person : people) {
-            System.out.println(person);
+    private void findAllCountries() {
+        System.out.println("\nTable: COUNTRY");
+        List<Country> countries = countryController.findAll();
+        for (Country country : countries) {
+            System.out.println(country);
         }
     }
 
-    private void findPersonById() {
+    private void findCountryById() {
         System.out.println("Input 'id': ");
-        Integer id = Integer.valueOf((input.nextLine()));
+        Integer id = Integer.valueOf(input.nextLine());
 
-        Optional<Person> person = personController.findById(id);
-        System.out.println(person.orElse(nullPerson));
+        Optional<Country> country = countryController.findById(id);
+        System.out.println(country.orElse(nullCountry));
     }
 
-    private void findAllBooksById() {
-        System.out.println("Input 'person id': ");
-        Integer id = Integer.valueOf((input.nextLine()));
+    // DRIVER
 
-        List<Book> books = personController.findAllBooksBy(id);
-        for (Book book : books) {
-            System.out.println(book);
+    private void createDriver() {
+        System.out.println("Input 'license_number': ");
+        String licenseNumber = input.nextLine();
+        System.out.println("Input 'name': ");
+        String name = input.nextLine();
+        System.out.println("Input 'surname': ");
+        String surname = input.nextLine();
+        System.out.println("Input 'middlename': ");
+        String middlename = input.nextLine();
+        System.out.println("Input 'email': ");
+        String email = input.nextLine();
+        System.out.println("Input 'phone_number': ");
+        String phoneNumber = input.nextLine();
+
+        Driver driver = new Driver(licenseNumber, name, surname, middlename, email, phoneNumber);
+
+        int count = driverController.create(driver);
+        System.out.printf("There are created %d rows\n", count);
+    }
+
+    private void updateDriver() {
+        System.out.println("Input 'license_number': ");
+        String licenseNumber = input.nextLine();
+
+        System.out.println("Input new 'name': ");
+        String name = input.nextLine();
+        System.out.println("Input new 'surname': ");
+        String surname = input.nextLine();
+        System.out.println("Input new 'middlename': ");
+        String middlename = input.nextLine();
+        System.out.println("Input new 'email': ");
+        String email = input.nextLine();
+        System.out.println("Input new 'phone_number': ");
+        String phoneNumber = input.nextLine();
+
+
+        Driver driver = new Driver(null, name, surname, middlename, email, phoneNumber);
+
+        int count = driverController.update(licenseNumber, driver);
+        System.out.printf("There are updated %d rows\n", count);
+    }
+
+    private void deleteFromDriver() {
+        System.out.println("Input 'license_number': ");
+        String licenseNumber = input.nextLine();
+
+        int count = driverController.delete(licenseNumber);
+        System.out.printf("There are deleted %d rows\n", count);
+    }
+
+    private void findAllDrivers() {
+        System.out.println("\nTable: DRIVER");
+        List<Driver> drivers = driverController.findAll();
+        for (Driver driver : drivers) {
+            System.out.println(driver);
         }
     }
 
-    private void addBookByNameToPersonBySurname() {
-        System.out.println("Input 'person surname': ");
-        String surname = input.nextLine();
-        System.out.println("Input 'book name': ");
-        String bookName = input.nextLine();
+    private void findDriverById() {
+        System.out.println("Input 'license_number': ");
+        String licenseNumber = input.nextLine();
 
-        String msg = personController.addBookByNameToPersonBySurname(bookName, surname);
-        System.out.println(msg);
+        Optional<Driver> driver = driverController.findById(licenseNumber);
+        System.out.println(driver.orElse(nullDriver));
     }
-    //endregion
 
-    //-------------------------------------------------------------------------
-    // region output
+    private void findDriversBySurname() {
+        System.out.println("Input 'surname': ");
+        String surname = input.nextLine();
+
+        List<Driver> drivers = driverController.findBySurname(surname);
+        for (Driver driver : drivers) {
+            System.out.println(driver);
+        }
+    }
+
+    // FINE
+
+    private void createFine() {
+        System.out.println("Input 'violation_type': ");
+        String violationType = input.nextLine();
+        System.out.println("Input 'driver_license_number': ");
+        String driverLicenseNumber = input.nextLine();
+
+        Fine fine = new Fine(null, violationType, driverLicenseNumber);
+
+        int count = fineController.create(fine);
+        System.out.printf("There are created %d rows\n", count);
+    }
+
+    private void updateFine() {
+        System.out.println("Input 'id': ");
+        Integer id = Integer.valueOf(input.nextLine());
+
+        System.out.println("Input new 'violation_type': ");
+        String violationType = input.nextLine();
+        System.out.println("Input new 'driver_license_number': ");
+        String driverLicenseNumber = input.nextLine();
+
+        Fine fine = new Fine(null, violationType, driverLicenseNumber);
+
+        int count = fineController.update(id, fine);
+        System.out.printf("There are updated %d rows\n", count);
+    }
+
+    private void deleteFromFine() {
+        System.out.println("Input 'id': ");
+        Integer id = Integer.valueOf(input.nextLine());
+
+        int count = fineController.delete(id);
+        System.out.printf("There are deleted %d rows\n", count);
+    }
+
+    private void findAllFines() {
+        System.out.println("\nTable: FINE");
+        List<Fine> fines = fineController.findAll();
+        for (Fine fine : fines) {
+            System.out.println(fine);
+        }
+    }
+
+    private void findFineById() {
+        System.out.println("Input 'id': ");
+        Integer id = Integer.valueOf(input.nextLine());
+
+        Optional<Fine> fine = fineController.findById(id);
+        System.out.println(fine.orElse(nullFine));
+    }
+
+    private void findFinesByDriverLicenseNumber() {
+        System.out.println("Input 'driver_license_number': ");
+        String driverLicenseNumber = input.nextLine();
+
+        List<Fine> fines = fineController.findByDriverLicenseNumber(driverLicenseNumber);
+        for (Fine fine : fines) {
+            System.out.println(fine);
+        }
+    }
+
+    // PARKING
+
+    private void createParking() {
+        System.out.println("Input 'location': ");
+        String location = input.nextLine();
+        System.out.println("Input 'type': ");
+        String type = input.nextLine();
+        System.out.println("Input 'city_id': ");
+        Integer cityId = Integer.valueOf(input.nextLine());
+
+        Parking parking = new Parking(null, location, type, cityId);
+
+        int count = parkingController.create(parking);
+        System.out.printf("There are created %d rows\n", count);
+    }
+
+    private void updateParking() {
+        System.out.println("Input 'id': ");
+        Integer id = Integer.valueOf(input.nextLine());
+
+        System.out.println("Input new 'location': ");
+        String location = input.nextLine();
+        System.out.println("Input new 'type': ");
+        String type = input.nextLine();
+        System.out.println("Input new 'city_id': ");
+        Integer cityId = Integer.valueOf(input.nextLine());
+
+        Parking parking = new Parking(null, location, type, cityId);
+
+        int count = parkingController.update(id, parking);
+        System.out.printf("There are updated %d rows\n", count);
+    }
+
+    private void deleteFromParking() {
+        System.out.println("Input 'id': ");
+        Integer id = Integer.valueOf(input.nextLine());
+
+        int count = parkingController.delete(id);
+        System.out.printf("There are deleted %d rows\n", count);
+    }
+
+    private void findAllParkings() {
+        System.out.println("\nTable: PARKING");
+        List<Parking> parkings = parkingController.findAll();
+        for (Parking parking : parkings) {
+            System.out.println(parking);
+        }
+    }
+
+    private void findParkingById() {
+        System.out.println("Input 'id': ");
+        Integer id = Integer.valueOf(input.nextLine());
+
+        Optional<Parking> parking = parkingController.findById(id);
+        System.out.println(parking.orElse(nullParking));
+    }
+
+    private void findParkingsByCityId() {
+        System.out.println("Input 'city_id': ");
+        Integer cityId = Integer.valueOf(input.nextLine());
+
+        List<Parking> parkings = parkingController.findByCityId(cityId);
+        for (Parking parking : parkings) {
+            System.out.println(parking);
+        }
+    }
+
+    // RENT
+
+    private void createRent() {
+        System.out.println("Input 'date_of_rent': ");
+        Timestamp dateOfRent = Timestamp.valueOf(input.nextLine());
+        System.out.println("Input 'end_date_of_rent': ");
+        Timestamp endDateOfRent = Timestamp.valueOf(input.nextLine());
+        System.out.println("Input 'payment_type': ");
+        String paymentType = input.nextLine();
+        System.out.println("Input 'transaction_id': ");
+        String transactionId = input.nextLine();
+        System.out.println("Input 'car_id': ");
+        Integer carId = Integer.valueOf(input.nextLine());
+        System.out.println("Input 'driver_license_number': ");
+        String driverLicenseNumber = input.nextLine();
+
+
+        Rent rent = new Rent(null, dateOfRent, endDateOfRent, paymentType, transactionId, carId, driverLicenseNumber);
+
+        int count = rentController.create(rent);
+        System.out.printf("There are created %d rows\n", count);
+    }
+
+    private void updateRent() {
+        System.out.println("Input 'id': ");
+        Integer id = Integer.valueOf(input.nextLine());
+
+        System.out.println("Input new 'date_of_rent': ");
+        Timestamp dateOfRent = Timestamp.valueOf(input.nextLine());
+        System.out.println("Input new 'end_date_of_rent': ");
+        Timestamp endDateOfRent = Timestamp.valueOf(input.nextLine());
+        System.out.println("Input new 'payment_type': ");
+        String paymentType = input.nextLine();
+        System.out.println("Input new 'transaction_id': ");
+        String transactionId = input.nextLine();
+        System.out.println("Input new 'car_id': ");
+        Integer carId = Integer.valueOf(input.nextLine());
+        System.out.println("Input new 'driver_license_number': ");
+        String driverLicenseNumber = input.nextLine();
+
+        Rent rent = new Rent(null, dateOfRent, endDateOfRent, paymentType, transactionId, carId, driverLicenseNumber);
+
+        int count = rentController.update(id, rent);
+        System.out.printf("There are updated %d rows\n", count);
+    }
+
+    private void deleteFromRent() {
+        System.out.println("Input 'id': ");
+        Integer id = Integer.valueOf(input.nextLine());
+
+        int count = rentController.delete(id);
+        System.out.printf("There are deleted %d rows\n", count);
+    }
+
+    private void findAllRents() {
+        System.out.println("\nTable: RENT");
+        List<Rent> rents = rentController.findAll();
+        for (Rent rent : rents) {
+            System.out.println(rent);
+        }
+    }
+
+    private void findRentById() {
+        System.out.println("Input 'id': ");
+        Integer id = Integer.valueOf(input.nextLine());
+
+        Optional<Rent> rent = rentController.findById(id);
+        System.out.println(rent.orElse(nullRent));
+    }
+
+    private void findRentsByCarId() {
+        System.out.println("Input 'car_id': ");
+        Integer carId = Integer.valueOf(input.nextLine());
+
+        List<Rent> rents = rentController.findByCarId(carId);
+        for (Rent rent : rents) {
+            System.out.println(rent);
+        }
+    }
+
+    private void findRentsByDriverLicenseNumber() {
+        System.out.println("Input 'driver_license_number': ");
+        String driverLicenseNumber = input.nextLine();
+
+        List<Rent> rents = rentController.findByDriverLicenseNumber(driverLicenseNumber);
+        for (Rent rent : rents) {
+            System.out.println(rent);
+        }
+    }
+
+    private void findRentsInDateRangeFromTo() {
+        System.out.println("From: ");
+        Timestamp from = Timestamp.valueOf(input.nextLine());
+        System.out.println("To: ");
+        Timestamp to = Timestamp.valueOf(input.nextLine());
+
+        List<Rent> rents = rentController.findInDateRange(from, to);
+        for (Rent rent : rents) {
+            System.out.println(rent);
+        }
+    }
+
+    // TRANSACTION
+
+    private void createTransaction() {
+        System.out.println("Input 'id': ");
+        String id = input.nextLine();
+        System.out.println("Input 'total_usd': ");
+        Float totalUSD = Float.valueOf(input.nextLine());
+
+        Transaction transaction = new Transaction(id, totalUSD);
+
+        int count = transactionController.create(transaction);
+        System.out.printf("There are created %d rows\n", count);
+    }
+
+    private void updateTransaction() {
+        System.out.println("Input 'id': ");
+        String id = input.nextLine();
+
+        System.out.println("Input new 'total_usd': ");
+        Float totalUSD = Float.valueOf(input.nextLine());
+
+        Transaction transaction = new Transaction(id, totalUSD);
+
+        int count = transactionController.update(id, transaction);
+        System.out.printf("There are updated %d rows\n", count);
+    }
+
+    private void deleteFromTransaction() {
+        System.out.println("Input 'id': ");
+        String id = input.nextLine();
+
+        int count = transactionController.delete(id);
+        System.out.printf("There are deleted %d rows\n", count);
+    }
+
+    private void findAllTransactions() {
+        System.out.println("\nTable: TRANSACTION");
+        List<Transaction> transactions = transactionController.findAll();
+        for (Transaction transaction : transactions) {
+            System.out.println(transaction);
+        }
+    }
+
+    private void findTransactionById() {
+        System.out.println("Input 'id': ");
+        String id = input.nextLine();
+
+        Optional<Transaction> transaction = transactionController.findById(id);
+        System.out.println(transaction.orElse(nullTransaction));
+    }
+
+    // OUTPUT
     private void outputMenu() {
         System.out.println("\nMENU:");
         for (String key : menu.keySet())

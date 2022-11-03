@@ -6,7 +6,7 @@ import ua.lviv.iot.dblabs.controller.RentController;
 import ua.lviv.iot.dblabs.domain.Rent;
 import ua.lviv.iot.dblabs.service.RentService;
 
-import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +42,7 @@ public class RentControllerImpl implements RentController {
     }
 
     @Override
-    public List<Rent> findInDateRange(Time from, Time to) {
+    public List<Rent> findInDateRange(Timestamp from, Timestamp to) {
         return rentService.findInDateRange(from, to);
     }
 

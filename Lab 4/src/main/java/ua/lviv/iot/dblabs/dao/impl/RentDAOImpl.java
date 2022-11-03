@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import ua.lviv.iot.dblabs.dao.RentDAO;
 import ua.lviv.iot.dblabs.domain.Rent;
 
-import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,7 +68,7 @@ public class RentDAOImpl implements RentDAO {
     }
 
     @Override
-    public List<Rent> findInDateRange(Time from, Time to) {
+    public List<Rent> findInDateRange(Timestamp from, Timestamp to) {
         return jdbcTemplate.query(FIND_IN_DATE_RANGE, BeanPropertyRowMapper.newInstance(Rent.class), from, to, from, to);
     }
 

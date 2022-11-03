@@ -8,8 +8,8 @@
         <version>2.7.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.pavelchak</groupId>
-    <artifactId>jdbc_template_project</artifactId>
+    <groupId>ua.lviv.iot.dblabs</groupId>
+    <artifactId>dblab4</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>jdbc_template_project</name>
     <description>jdbc_template_project</description>

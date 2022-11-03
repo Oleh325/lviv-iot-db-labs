@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @Data
 public class Transaction {
     private String id;
-    private Integer totalUSD;
+    private Float totalUSD;
 }
