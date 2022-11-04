@@ -5,7 +5,6 @@ import ua.lviv.iot.dblabs.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.*;
 
