@@ -22,7 +22,7 @@ public class ParkingDTOAssembler implements RepresentationModelAssembler<Parking
                 .location(entity.getLocation())
                 .type(entity.getType())
                 .cityId(entity.getCity().getId())
-                .carIds(entity.getCars().stream().map(Car::getId).toList())
+                .carIds(entity.getCars() == null ? null : entity.getCars().stream().map(Car::getId).toList())
                 .build();
         Link selfLink = linkTo(methodOn(ParkingController.class).getParking(parkingDTO.getId())).withSelfRel();
         parkingDTO.add(selfLink);

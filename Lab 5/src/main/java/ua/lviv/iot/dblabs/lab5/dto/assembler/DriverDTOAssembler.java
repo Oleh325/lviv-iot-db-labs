@@ -25,8 +25,8 @@ public class DriverDTOAssembler implements RepresentationModelAssembler<Driver, 
                 .middlename(entity.getMiddlename())
                 .email(entity.getEmail())
                 .phoneNumber(entity.getPhoneNumber())
-                .fineIds(entity.getFines().stream().map(Fine::getId).toList())
-                .rentIds(entity.getRents().stream().map(Rent::getId).toList())
+                .fineIds(entity.getFines() == null ? null : entity.getFines().stream().map(Fine::getId).toList())
+                .rentIds(entity.getRents() == null ? null : entity.getRents().stream().map(Rent::getId).toList())
                 .build();
         Link selfLink = linkTo(methodOn(DriverController.class).getDriver(driverDTO.getLicenseNumber())).withSelfRel();
         driverDTO.add(selfLink);

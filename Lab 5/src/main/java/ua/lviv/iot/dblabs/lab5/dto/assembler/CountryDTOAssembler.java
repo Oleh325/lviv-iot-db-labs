@@ -20,7 +20,7 @@ public class CountryDTOAssembler implements RepresentationModelAssembler<Country
         CountryDTO countryDTO = CountryDTO.builder()
                 .id(entity.getId())
                 .name(entity.getName())
-                .cityIds(entity.getCities().stream().map(City::getId).toList())
+                .cityIds(entity.getCities() == null ? null : entity.getCities().stream().map(City::getId).toList())
                 .build();
         Link selfLink = linkTo(methodOn(CountryController.class).getCountry(countryDTO.getId())).withSelfRel();
         countryDTO.add(selfLink);

@@ -1,32 +1,46 @@
 package ua.lviv.iot.dblabs.lab5.domain;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Column;
+import javax.persistence.Basic;
+import javax.persistence.OneToOne;
 import java.util.Objects;
 
 @Entity
 public class Transaction {
-    private String id;
-    private double totalUsd;
-    private Rent rent;
 
     @Id
     @Column(name = "id", length = 50)
+    private String id;
+
+    @Basic
+    @Column(name = "total_usd", nullable = false)
+    private double totalUsd;
+
+    @OneToOne(mappedBy = "transaction")
+    private Rent rent;
+
+
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "total_usd", nullable = false)
     public double getTotalUsd() {
         return totalUsd;
     }
-
     public void setTotalUsd(double totalUsd) {
         this.totalUsd = totalUsd;
+    }
+
+    public Rent getRent() {
+        return rent;
+    }
+    public void setRent(Rent rent) {
+        this.rent = rent;
     }
 
     @Override
@@ -40,14 +54,5 @@ public class Transaction {
     @Override
     public int hashCode() {
         return Objects.hash(id, totalUsd);
-    }
-
-    @OneToOne(mappedBy = "transaction")
-    public Rent getRent() {
-        return rent;
-    }
-
-    public void setRent(Rent rent) {
-        this.rent = rent;
     }
 }

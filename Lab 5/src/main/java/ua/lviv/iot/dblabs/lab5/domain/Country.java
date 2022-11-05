@@ -1,34 +1,50 @@
 package ua.lviv.iot.dblabs.lab5.domain;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Column;
+import javax.persistence.Basic;
+import javax.persistence.OneToMany;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class Country {
-    private int id;
-    private String name;
-    private List<City> cities;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
+    private int id;
+
+    @Basic
+    @Column(name = "name", length = 45, nullable = false)
+    private String name;
+
+    @OneToMany(mappedBy = "country")
+    private List<City> cities;
+
+
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "name", length = 45, nullable = false)
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<City> getCities() {
+        return cities;
+    }
+    public void setCities(List<City> cities) {
+        this.cities = cities;
     }
 
     @Override
@@ -42,14 +58,5 @@ public class Country {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
-    }
-
-    @OneToMany(mappedBy = "country")
-    public List<City> getCities() {
-        return cities;
-    }
-
-    public void setCities(List<City> cities) {
-        this.cities = cities;
     }
 }

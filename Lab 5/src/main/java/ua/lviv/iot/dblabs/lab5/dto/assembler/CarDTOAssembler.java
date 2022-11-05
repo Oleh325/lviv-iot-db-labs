@@ -27,7 +27,7 @@ public class CarDTOAssembler implements RepresentationModelAssembler<Car, CarDTO
                 .rentCostPerDayUsd(entity.getRentCostPerDayUsd())
                 .fuelType(entity.getFuelType().toLowerCase())
                 .additionalInfo(entity.getAdditionalInfo())
-                .rentIds(entity.getRents().stream().map(Rent::getId).toList())
+                .rentIds(entity.getRents() == null ? null : entity.getRents().stream().map(Rent::getId).toList())
                 .parkingId(entity.getParking() == null ? null : entity.getParking().getId())
                 .build();
         Link selfLink = linkTo(methodOn(CarController.class).getCar(carDTO.getId())).withSelfRel();

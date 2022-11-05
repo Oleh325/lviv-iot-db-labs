@@ -21,7 +21,7 @@ public class CityDTOAssembler implements RepresentationModelAssembler<City, City
                 .id(entity.getId())
                 .name(entity.getName())
                 .countryId(entity.getCountry().getId())
-                .parkingIds(entity.getParkings().stream().map(Parking::getId).toList())
+                .parkingIds(entity.getParkings() == null ? null : entity.getParkings().stream().map(Parking::getId).toList())
                 .build();
         Link selfLink = linkTo(methodOn(CityController.class).getCity(cityDTO.getId())).withSelfRel();
         cityDTO.add(selfLink);
