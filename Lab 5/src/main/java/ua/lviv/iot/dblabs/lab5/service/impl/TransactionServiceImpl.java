@@ -19,7 +19,7 @@ public class TransactionServiceImpl implements TransactionService {
     private TransactionRepository transactionRepository;
 
     private final RentService rentService;
-    
+
     @Autowired
     public TransactionServiceImpl(@Lazy RentService rentService) {
         this.rentService = rentService;

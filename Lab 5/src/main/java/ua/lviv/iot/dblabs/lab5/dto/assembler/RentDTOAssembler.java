@@ -21,7 +21,7 @@ public class RentDTOAssembler implements RepresentationModelAssembler<Rent, Rent
                 .dateOfRent(entity.getDateOfRent())
                 .endDateOfRent(entity.getEndDateOfRent())
                 .paymentType(entity.getPaymentType())
-                .transactionId(entity.getTransaction().getId())
+                .transactionId(entity.getTransaction() == null ? null : entity.getTransaction().getId())
                 .carId(entity.getCar().getId())
                 .driverLicenseNumber(entity.getDriver().getLicenseNumber())
                 .build();

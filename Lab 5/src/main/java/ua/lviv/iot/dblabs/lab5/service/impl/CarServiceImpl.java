@@ -41,6 +41,12 @@ public class CarServiceImpl implements CarService {
                 .orElseThrow(() -> new CarNotFoundException(id));
     }
 
+    public List<Rent> findAllRentsForCar(Integer carId) {
+        Car car = carRepository.findById(carId)
+                .orElseThrow(() -> new CarNotFoundException(carId));
+        return car.getRents();
+    }
+
     @Transactional
     public Car create(Car car) {
         carRepository.save(car);

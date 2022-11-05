@@ -3,6 +3,7 @@ package ua.lviv.iot.dblabs.lab5.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.lviv.iot.dblabs.lab5.domain.Driver;
+import ua.lviv.iot.dblabs.lab5.domain.Fine;
 import ua.lviv.iot.dblabs.lab5.exception.DriverNotFoundException;
 import ua.lviv.iot.dblabs.lab5.repository.DriverRepository;
 import ua.lviv.iot.dblabs.lab5.service.DriverService;
@@ -23,6 +24,13 @@ public class DriverServiceImpl implements DriverService {
     public Driver findById(String id) {
         return driverRepository.findById(id)
                 .orElseThrow(() -> new DriverNotFoundException(id));
+    }
+
+    @Override
+    public List<Fine> findAllFinesForDriver(String driverLicenseNumber) {
+        Driver driver = driverRepository.findById(driverLicenseNumber)
+                .orElseThrow(() -> new DriverNotFoundException(driverLicenseNumber));
+        return driver.getFines();
     }
 
     @Transactional

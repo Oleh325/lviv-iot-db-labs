@@ -35,6 +35,13 @@ public class ParkingController {
         return new ResponseEntity<>(parkingDTOs, HttpStatus.OK);
     }
 
+    @GetMapping("/cities/{cityId}")
+    public ResponseEntity<CollectionModel<ParkingDTO>> getParkingsByCity(@PathVariable Integer cityId) {
+        List<Parking> parkings = parkingService.findByCityId(cityId);
+        CollectionModel<ParkingDTO> parkingDTOs = parkingDTOAssembler.toCollectionModel(parkings);
+        return new ResponseEntity<>(parkingDTOs, HttpStatus.OK);
+    }
+
     @PostMapping("")
     public ResponseEntity<ParkingDTO> addParking(@RequestBody Parking parking) {
         Parking newParking = parkingService.create(parking);

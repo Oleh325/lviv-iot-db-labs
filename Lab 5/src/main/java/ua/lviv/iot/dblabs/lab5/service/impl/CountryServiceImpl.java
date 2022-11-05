@@ -30,6 +30,13 @@ public class CountryServiceImpl implements CountryService {
                 .orElseThrow(() -> new CountryNotFoundException(id));
     }
 
+    @Override
+    public List<City> findAllCitiesForCountry(Integer countryId) {
+        Country country = countryRepository.findById(countryId)
+                .orElseThrow(() -> new CountryNotFoundException(countryId));
+        return country.getCities();
+    }
+
     @Transactional
     public Country create(Country country) {
         countryRepository.save(country);

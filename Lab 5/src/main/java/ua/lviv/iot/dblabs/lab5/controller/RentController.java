@@ -10,6 +10,7 @@ import ua.lviv.iot.dblabs.lab5.dto.RentDTO;
 import ua.lviv.iot.dblabs.lab5.dto.assembler.RentDTOAssembler;
 import ua.lviv.iot.dblabs.lab5.service.RentService;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
@@ -31,6 +32,27 @@ public class RentController {
     @GetMapping("")
     public ResponseEntity<CollectionModel<RentDTO>> getAllRents() {
         List<Rent> rents = rentService.findAll();
+        CollectionModel<RentDTO> rentDTOs = rentDTOAssembler.toCollectionModel(rents);
+        return new ResponseEntity<>(rentDTOs, HttpStatus.OK);
+    }
+
+    @GetMapping("/cars/{carId}")
+    public ResponseEntity<CollectionModel<RentDTO>> getRentsByCarId(@PathVariable Integer carId) {
+        List<Rent> rents = rentService.findByCarId(carId);
+        CollectionModel<RentDTO> rentDTOs = rentDTOAssembler.toCollectionModel(rents);
+        return new ResponseEntity<>(rentDTOs, HttpStatus.OK);
+    }
+
+    @GetMapping("/drivers/{driverLicenseNumber}")
+    public ResponseEntity<CollectionModel<RentDTO>> getRentsByDriver(@PathVariable String driverLicenseNumber) {
+        List<Rent> rents = rentService.findByDriverLicenseNumber(driverLicenseNumber);
+        CollectionModel<RentDTO> rentDTOs = rentDTOAssembler.toCollectionModel(rents);
+        return new ResponseEntity<>(rentDTOs, HttpStatus.OK);
+    }
+
+    @GetMapping("/from/{from}/to/{to}")
+    public ResponseEntity<CollectionModel<RentDTO>> getRentsInDateRange(@PathVariable Timestamp from, @PathVariable Timestamp to) {
+        List<Rent> rents = rentService.findInDateRange(from, to);
         CollectionModel<RentDTO> rentDTOs = rentDTOAssembler.toCollectionModel(rents);
         return new ResponseEntity<>(rentDTOs, HttpStatus.OK);
     }

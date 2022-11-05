@@ -2,15 +2,22 @@ package ua.lviv.iot.dblabs.lab5.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.lviv.iot.dblabs.lab5.domain.City;
 import ua.lviv.iot.dblabs.lab5.domain.Country;
+import ua.lviv.iot.dblabs.lab5.dto.CityDTO;
 import ua.lviv.iot.dblabs.lab5.dto.CountryDTO;
+import ua.lviv.iot.dblabs.lab5.dto.assembler.CityDTOAssembler;
 import ua.lviv.iot.dblabs.lab5.dto.assembler.CountryDTOAssembler;
 import ua.lviv.iot.dblabs.lab5.service.CountryService;
 
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/api/countries")
@@ -20,6 +27,8 @@ public class CountryController {
     private CountryService countryService;
     @Autowired
     private CountryDTOAssembler countryDTOAssembler;
+    @Autowired
+    private CityDTOAssembler cityDTOAssembler;
 
     @GetMapping("/{countryId}")
     public ResponseEntity<CountryDTO> getCountry(@PathVariable Integer countryId) {
@@ -33,6 +42,14 @@ public class CountryController {
         List<Country> countries = countryService.findAll();
         CollectionModel<CountryDTO> countryDTOs = countryDTOAssembler.toCollectionModel(countries);
         return new ResponseEntity<>(countryDTOs, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{countryId}/cities")
+    public ResponseEntity<CollectionModel<CityDTO>> getAllCitiesForCountry(@PathVariable Integer countryId) {
+        List<City> cities = countryService.findAllCitiesForCountry(countryId);
+        Link selfLink = linkTo(methodOn(CountryController.class).getAllCitiesForCountry(countryId)).withSelfRel();
+        CollectionModel<CityDTO> cityDTOs = cityDTOAssembler.toCollectionModel(cities, selfLink);
+        return new ResponseEntity<>(cityDTOs, HttpStatus.OK);
     }
 
     @PostMapping("")

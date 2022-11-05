@@ -35,6 +35,13 @@ public class FineController {
         return new ResponseEntity<>(fineDTOs, HttpStatus.OK);
     }
 
+    @GetMapping("/drivers/{driverLicenseNumber}")
+    public ResponseEntity<CollectionModel<FineDTO>> getFinesByDriver(@PathVariable String driverLicenseNumber) {
+        List<Fine> fines = fineService.findByDriverLicenseNumber(driverLicenseNumber);
+        CollectionModel<FineDTO> fineDTOs = fineDTOAssembler.toCollectionModel(fines);
+        return new ResponseEntity<>(fineDTOs, HttpStatus.OK);
+    }
+
     @PostMapping("")
     public ResponseEntity<FineDTO> addFine(@RequestBody Fine fine) {
         Fine newFine = fineService.create(fine);

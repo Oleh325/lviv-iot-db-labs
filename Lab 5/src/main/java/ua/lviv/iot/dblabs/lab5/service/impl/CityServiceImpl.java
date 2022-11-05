@@ -40,6 +40,13 @@ public class CityServiceImpl implements CityService {
                 .orElseThrow(() -> new CityNotFoundException(id));
     }
 
+    @Override
+    public List<Parking> findAllParkingsForCity(Integer cityId) {
+        City city = cityRepository.findById(cityId)
+                .orElseThrow(() -> new CityNotFoundException(cityId));
+        return city.getParkings();
+    }
+
     @Transactional
     public City create(City city) {
         cityRepository.save(city);
