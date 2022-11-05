@@ -53,15 +53,14 @@ public class Car {
         this.color = color;
     }
 
-    @Enumerated(EnumType.STRING)
     @Basic
     @Column(name = "transmission_type", columnDefinition = "ENUM('manual','automatic')")
-    public TransmissionType getTransmissionType() {
-        return transmissionType;
+    public String getTransmissionType() {
+        return transmissionType.toString().toLowerCase();
     }
 
-    public void setTransmissionType(TransmissionType transmissionType) {
-        this.transmissionType = transmissionType;
+    public void setTransmissionType(String transmissionType) {
+        this.transmissionType = TransmissionType.valueOf(transmissionType.toUpperCase());
     }
 
     @Basic
@@ -104,15 +103,14 @@ public class Car {
         this.rentCostPerDayUsd = rentCostPerDayUsd;
     }
 
-    @Enumerated(EnumType.STRING)
     @Basic
     @Column(name = "fuel_type", columnDefinition = "ENUM('gas','petrol','diesel','electric','other')", nullable = false)
-    public FuelType getFuelType() {
-        return fuelType;
+    public String getFuelType() {
+        return fuelType.toString().toLowerCase();
     }
 
-    public void setFuelType(FuelType fuelType) {
-        this.fuelType = fuelType;
+    public void setFuelType(String fuelType) {
+        this.fuelType = FuelType.valueOf(fuelType.toUpperCase());
     }
 
     @Basic

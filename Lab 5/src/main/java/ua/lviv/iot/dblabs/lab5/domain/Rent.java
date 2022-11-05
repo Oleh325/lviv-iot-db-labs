@@ -47,15 +47,14 @@ public class Rent {
         this.endDateOfRent = endDateOfRent;
     }
 
-    @Enumerated(EnumType.STRING)
     @Basic
     @Column(name = "payment_type", columnDefinition = "ENUM('debit_card','cash','crypto')", nullable = false)
-    public PaymentType getPaymentType() {
-        return paymentType;
+    public String getPaymentType() {
+        return paymentType.toString().toLowerCase();
     }
 
-    public void setPaymentType(PaymentType paymentType) {
-        this.paymentType = paymentType;
+    public void setPaymentType(String paymentType) {
+        this.paymentType = PaymentType.valueOf(paymentType.toUpperCase());
     }
 
     @Override

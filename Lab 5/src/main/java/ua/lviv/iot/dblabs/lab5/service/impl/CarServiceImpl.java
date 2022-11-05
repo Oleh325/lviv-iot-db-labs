@@ -3,10 +3,12 @@ package ua.lviv.iot.dblabs.lab5.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.lviv.iot.dblabs.lab5.domain.Car;
+import ua.lviv.iot.dblabs.lab5.domain.Rent;
 import ua.lviv.iot.dblabs.lab5.domain.enums.FuelType;
 import ua.lviv.iot.dblabs.lab5.exception.CarNotFoundException;
 import ua.lviv.iot.dblabs.lab5.repository.CarRepository;
 import ua.lviv.iot.dblabs.lab5.service.CarService;
+import ua.lviv.iot.dblabs.lab5.service.RentService;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -16,6 +18,9 @@ public class CarServiceImpl implements CarService {
 
     @Autowired
     private CarRepository carRepository;
+
+    @Autowired
+    private RentService rentService;
 
     public List<Car> findAll() {
         return carRepository.findAll();
@@ -54,6 +59,9 @@ public class CarServiceImpl implements CarService {
     public void delete(Integer id) {
         Car car = carRepository.findById(id)
                 .orElseThrow(() -> new CarNotFoundException(id));
+        for (Rent rent : rentService.findByCarId(id)) {
+            rentService.delete(rent.getId());
+        }
         carRepository.delete(car);
     }
 
