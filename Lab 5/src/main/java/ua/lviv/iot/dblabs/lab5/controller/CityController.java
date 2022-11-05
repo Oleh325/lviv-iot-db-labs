@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ua.lviv.iot.dblabs.lab5.domain.City;
 import ua.lviv.iot.dblabs.lab5.dto.CityDTO;
 import ua.lviv.iot.dblabs.lab5.dto.assembler.CityDTOAssembler;
@@ -36,5 +33,24 @@ public class CityController {
         List<City> cities = cityService.findAll();
         CollectionModel<CityDTO> cityDTOs = cityDTOAssembler.toCollectionModel(cities);
         return new ResponseEntity<>(cityDTOs, HttpStatus.OK);
+    }
+
+    @PostMapping("")
+    public ResponseEntity<CityDTO> addCityWithCountry(@RequestBody City city) {
+        City newCity = cityService.create(city);
+        CityDTO cityDTO = cityDTOAssembler.toModel(newCity);
+        return new ResponseEntity<>(cityDTO, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{cityId}/countries/{countryId}")
+    public ResponseEntity<?> updateCityWithCountry(@RequestBody City uCity, @PathVariable Integer cityId, @PathVariable Integer countryId) {
+        cityService.update(cityId, uCity, countryId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{cityId}")
+    public ResponseEntity<?> deleteCity(@PathVariable Integer cityId) {
+        cityService.delete(cityId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

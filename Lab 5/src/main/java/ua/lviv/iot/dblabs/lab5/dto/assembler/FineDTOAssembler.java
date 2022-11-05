@@ -3,6 +3,7 @@ package ua.lviv.iot.dblabs.lab5.dto.assembler;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
+import org.springframework.stereotype.Component;
 import ua.lviv.iot.dblabs.lab5.controller.FineController;
 import ua.lviv.iot.dblabs.lab5.domain.Fine;
 import ua.lviv.iot.dblabs.lab5.dto.FineDTO;
@@ -10,6 +11,7 @@ import ua.lviv.iot.dblabs.lab5.dto.FineDTO;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Component
 public class FineDTOAssembler implements RepresentationModelAssembler<Fine, FineDTO> {
 
     @Override

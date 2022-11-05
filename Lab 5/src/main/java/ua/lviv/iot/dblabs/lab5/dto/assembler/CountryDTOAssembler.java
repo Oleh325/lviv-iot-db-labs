@@ -3,6 +3,7 @@ package ua.lviv.iot.dblabs.lab5.dto.assembler;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
+import org.springframework.stereotype.Component;
 import ua.lviv.iot.dblabs.lab5.controller.CountryController;
 import ua.lviv.iot.dblabs.lab5.domain.City;
 import ua.lviv.iot.dblabs.lab5.domain.Country;
@@ -11,7 +12,9 @@ import ua.lviv.iot.dblabs.lab5.dto.CountryDTO;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Component
 public class CountryDTOAssembler implements RepresentationModelAssembler<Country, CountryDTO> {
+
     @Override
     public CountryDTO toModel(Country entity) {
         CountryDTO countryDTO = CountryDTO.builder()

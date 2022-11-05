@@ -49,9 +49,22 @@ public class CarController {
         return new ResponseEntity<>(carDTO, HttpStatus.CREATED);
     }
 
+    @PostMapping("/{parkingId}")
+    public ResponseEntity<CarDTO> addCarWithParking(@RequestBody Car car, @PathVariable Integer parkingId) {
+        Car newCar = carService.create(car, parkingId);
+        CarDTO carDTO = carDTOAssembler.toModel(newCar);
+        return new ResponseEntity<>(carDTO, HttpStatus.CREATED);
+    }
+
     @PutMapping("/{carId}")
     public ResponseEntity<?> updateCar(@RequestBody Car uCar, @PathVariable Integer carId) {
         carService.update(carId, uCar);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/{carId}/parkings/{parkingId}")
+    public ResponseEntity<?> updateCarWithParking(@RequestBody Car uCar, @PathVariable Integer carId, @PathVariable Integer parkingId) {
+        carService.update(carId, uCar, parkingId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

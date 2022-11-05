@@ -7,11 +7,11 @@ import ua.lviv.iot.dblabs.lab5.domain.Parking;
 import ua.lviv.iot.dblabs.lab5.exception.ParkingNotFoundException;
 import ua.lviv.iot.dblabs.lab5.repository.ParkingRepository;
 import ua.lviv.iot.dblabs.lab5.service.CarService;
+import ua.lviv.iot.dblabs.lab5.service.CityService;
 import ua.lviv.iot.dblabs.lab5.service.ParkingService;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class ParkingServiceImpl implements ParkingService {
@@ -21,6 +21,9 @@ public class ParkingServiceImpl implements ParkingService {
 
         @Autowired
         private CarService carService;
+
+        @Autowired
+        private CityService cityService;
 
         public List<Parking> findAll() {
                 return parkingRepository.findAll();
@@ -44,6 +47,17 @@ public class ParkingServiceImpl implements ParkingService {
                 parking.setLocation(uParking.getLocation());
                 parking.setType(uParking.getType());
                 parking.setCity(uParking.getCity());
+                parking.setCars(uParking.getCars());
+                parkingRepository.save(parking);
+        }
+
+        @Transactional
+        public void update(Integer id, Parking uParking, Integer cityId) {
+                Parking parking = parkingRepository.findById(id)
+                        .orElseThrow(() -> new ParkingNotFoundException(id));
+                parking.setLocation(uParking.getLocation());
+                parking.setType(uParking.getType());
+                parking.setCity(cityService.findById(cityId));
                 parking.setCars(uParking.getCars());
                 parkingRepository.save(parking);
         }

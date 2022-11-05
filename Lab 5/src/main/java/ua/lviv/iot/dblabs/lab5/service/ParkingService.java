@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface ParkingService extends GeneralService<Parking, Integer> {
 
+    void update(Integer id, Parking parking, Integer cityId);
+
     List<Parking> findByCityId(Integer cityId);
 
 }

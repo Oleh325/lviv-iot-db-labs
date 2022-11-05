@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ua.lviv.iot.dblabs.lab5.domain.Country;
 import ua.lviv.iot.dblabs.lab5.dto.CountryDTO;
 import ua.lviv.iot.dblabs.lab5.dto.assembler.CountryDTOAssembler;
@@ -36,5 +33,24 @@ public class CountryController {
         List<Country> countries = countryService.findAll();
         CollectionModel<CountryDTO> countryDTOs = countryDTOAssembler.toCollectionModel(countries);
         return new ResponseEntity<>(countryDTOs, HttpStatus.OK);
+    }
+
+    @PostMapping("")
+    public ResponseEntity<CountryDTO> addCountry(@RequestBody Country country) {
+        Country newCountry = countryService.create(country);
+        CountryDTO countryDTO = countryDTOAssembler.toModel(newCountry);
+        return new ResponseEntity<>(countryDTO, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{countryId}")
+    public ResponseEntity<?> updateCountry(@RequestBody Country uCountry, @PathVariable Integer countryId) {
+        countryService.update(countryId, uCountry);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{countryId}")
+    public ResponseEntity<?> deleteCountry(@PathVariable Integer countryId) {
+        countryService.delete(countryId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -3,6 +3,7 @@ package ua.lviv.iot.dblabs.lab5.dto.assembler;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
+import org.springframework.stereotype.Component;
 import ua.lviv.iot.dblabs.lab5.controller.RentController;
 import ua.lviv.iot.dblabs.lab5.domain.Rent;
 import ua.lviv.iot.dblabs.lab5.dto.RentDTO;
@@ -10,6 +11,7 @@ import ua.lviv.iot.dblabs.lab5.dto.RentDTO;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Component
 public class RentDTOAssembler implements RepresentationModelAssembler<Rent, RentDTO> {
 
     @Override

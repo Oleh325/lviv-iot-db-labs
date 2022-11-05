@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Relation(itemRelation = "rent", collectionRelation = "rents")
 public class RentDTO extends RepresentationModel<RentDTO> {
-    private int id;
+    private Integer id;
     private Timestamp dateOfRent;
     private Timestamp endDateOfRent;
     private String paymentType;

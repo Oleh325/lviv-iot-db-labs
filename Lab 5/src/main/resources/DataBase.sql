@@ -53,7 +53,8 @@ CREATE TABLE `car` (
     `additional_info` varchar(200) DEFAULT NULL,
     `parking_id` int DEFAULT NULL,
     PRIMARY KEY (`id`),
-    KEY `fk_car_parking_idx` (`parking_id`)
+    KEY `fk_car_parking_idx` (`parking_id`),
+    CONSTRAINT `fk_car_parking_idx` FOREIGN KEY (`parking_id`) REFERENCES `parking` (`id`)
 ) ENGINE=InnoDB;
 
 
@@ -90,10 +91,10 @@ CREATE TABLE `rent` (
     `date_of_rent` datetime NOT NULL,
     `end_date_of_rent` datetime NOT NULL,
     `payment_type` enum('debit_card','cash','crypto') NOT NULL,
-    `transaction_id` varchar(50) NOT NULL,
+    `transaction_id` varchar(50) DEFAULT NULL,
     `car_id` int NOT NULL,
     `driver_license_number` varchar(15) NOT NULL,
-    PRIMARY KEY (`id`,`transaction_id`),
+    PRIMARY KEY (`id`),
     KEY `fk_rent_transaction1_idx` (`transaction_id`),
     KEY `fk_rent_car1_idx` (`car_id`),
     KEY `fk_rent_driver1_idx` (`driver_license_number`),

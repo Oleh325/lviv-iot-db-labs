@@ -3,6 +3,7 @@ package ua.lviv.iot.dblabs.lab5.dto.assembler;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
+import org.springframework.stereotype.Component;
 import ua.lviv.iot.dblabs.lab5.controller.ParkingController;
 import ua.lviv.iot.dblabs.lab5.domain.Car;
 import ua.lviv.iot.dblabs.lab5.domain.Parking;
@@ -11,6 +12,7 @@ import ua.lviv.iot.dblabs.lab5.dto.ParkingDTO;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Component
 public class ParkingDTOAssembler implements RepresentationModelAssembler<Parking, ParkingDTO> {
 
     @Override
@@ -40,4 +42,5 @@ public class ParkingDTOAssembler implements RepresentationModelAssembler<Parking
         parkingDTOs.add(link);
         return parkingDTOs;
     }
+
 }

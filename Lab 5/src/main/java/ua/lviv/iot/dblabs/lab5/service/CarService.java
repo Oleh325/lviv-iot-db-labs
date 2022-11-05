@@ -6,6 +6,11 @@ import ua.lviv.iot.dblabs.lab5.domain.enums.FuelType;
 import java.util.List;
 
 public interface CarService extends GeneralService<Car, Integer> {
+
+    Car create(Car car, Integer parkingId);
+
+    void update(Integer id, Car car, Integer parkingId);
+
     List<Car> findByModel(String model);
 
     List<Car> findByFuelType(FuelType fuelType);

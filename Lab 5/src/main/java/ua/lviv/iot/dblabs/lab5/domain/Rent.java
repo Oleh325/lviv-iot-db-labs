@@ -71,7 +71,7 @@ public class Rent {
     }
 
     @OneToOne
-    @JoinColumn(name = "transaction_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "transaction_id", referencedColumnName = "id")
     public Transaction getTransaction() {
         return transaction;
     }
