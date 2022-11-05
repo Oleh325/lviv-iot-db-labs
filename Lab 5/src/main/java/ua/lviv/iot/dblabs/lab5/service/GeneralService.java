@@ -1,7 +1,6 @@
 package ua.lviv.iot.dblabs.lab5.service;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface GeneralService<T, ID> {
     List<T> findAll();
