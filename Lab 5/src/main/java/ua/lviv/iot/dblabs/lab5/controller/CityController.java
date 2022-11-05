@@ -31,7 +31,7 @@ public class CityController {
         return new ResponseEntity<>(cityDTO, HttpStatus.OK);
     }
 
-    @GetMapping(value = "")
+    @GetMapping("")
     public ResponseEntity<CollectionModel<CityDTO>> getAllCities() {
         List<City> cities = cityService.findAll();
         CollectionModel<CityDTO> cityDTOs = cityDTOAssembler.toCollectionModel(cities);

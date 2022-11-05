@@ -28,34 +28,34 @@ public class CarController {
         return new ResponseEntity<>(carDTO, HttpStatus.OK);
     }
 
-    @GetMapping(value = "")
+    @GetMapping("")
     public ResponseEntity<CollectionModel<CarDTO>> getAllCars() {
         List<Car> cars = carService.findAll();
         CollectionModel<CarDTO> carDTOs = carDTOAssembler.toCollectionModel(cars);
         return new ResponseEntity<>(carDTOs, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/model/{model}")
+    @GetMapping("/model/{model}")
     public ResponseEntity<CollectionModel<CarDTO>> getCarsByModel(@PathVariable String model) {
         List<Car> cars = carService.findByModel(model);
         CollectionModel<CarDTO> carDTOs = carDTOAssembler.toCollectionModel(cars);
         return new ResponseEntity<>(carDTOs, HttpStatus.OK);
     }
 
-    @PostMapping(value = "")
+    @PostMapping("")
     public ResponseEntity<CarDTO> addCar(@RequestBody Car car) {
         Car newCar = carService.create(car);
         CarDTO carDTO = carDTOAssembler.toModel(newCar);
         return new ResponseEntity<>(carDTO, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{carId}")
+    @PutMapping("/{carId}")
     public ResponseEntity<?> updateCar(@RequestBody Car uCar, @PathVariable Integer carId) {
         carService.update(carId, uCar);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{carId}")
+    @DeleteMapping("/{carId}")
     public ResponseEntity<?> deleteCar(@PathVariable Integer carId) {
         carService.delete(carId);
         return new ResponseEntity<>(HttpStatus.OK);
