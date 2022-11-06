@@ -19,9 +19,6 @@ import java.util.Objects;
 @Entity
 public class Car {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
     private int id;
 
     @Basic
@@ -60,14 +57,13 @@ public class Car {
     @Column(name = "additional_info", length = 200)
     private String additionalInfo;
 
-    @OneToMany(mappedBy = "car")
     private List<Rent> rents;
 
-    @ManyToOne
-    @JoinColumn(name = "parking_id", referencedColumnName = "id")
     private Parking parking;
 
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -138,6 +134,7 @@ public class Car {
         this.additionalInfo = additionalInfo;
     }
 
+    @OneToMany(mappedBy = "car")
     public List<Rent> getRents() {
         return rents;
     }
@@ -145,6 +142,8 @@ public class Car {
         this.rents = rents;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "parking_id", referencedColumnName = "id")
     public Parking getParking() {
         return parking;
     }

@@ -17,9 +17,6 @@ import java.util.Objects;
 @Entity
 public class Rent {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
     private int id;
 
     @Basic
@@ -34,19 +31,15 @@ public class Rent {
     @Column(name = "payment_type", columnDefinition = "ENUM('debit_card','cash','crypto')", nullable = false)
     private PaymentType paymentType;
 
-    @OneToOne
-    @JoinColumn(name = "transaction_id", referencedColumnName = "id")
     private Transaction transaction;
 
-    @ManyToOne
-    @JoinColumn(name = "car_id", referencedColumnName = "id", nullable = false)
     private Car car;
 
-    @ManyToOne
-    @JoinColumn(name = "driver_license_number", referencedColumnName = "license_number", nullable = false)
     private Driver driver;
 
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -75,6 +68,8 @@ public class Rent {
         this.paymentType = PaymentType.valueOf(paymentType.toUpperCase());
     }
 
+    @OneToOne
+    @JoinColumn(name = "transaction_id", referencedColumnName = "id")
     public Transaction getTransaction() {
         return transaction;
     }
@@ -82,6 +77,8 @@ public class Rent {
         this.transaction = transaction;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "car_id", referencedColumnName = "id", nullable = false)
     public Car getCar() {
         return car;
     }
@@ -89,6 +86,8 @@ public class Rent {
         this.car = car;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "driver_license_number", referencedColumnName = "license_number", nullable = false)
     public Driver getDriver() {
         return driver;
     }
