@@ -23,3 +23,8 @@ Task: write a console program to work with a database created in Lab 1. MVP and 
 ### Spring Data JPA
 
 Task: write a Spring Boot backend application to work with a database created in Lab 1. Client interaction with data should be implemented via Swagger.
+
+## Lab 6
+### Stored procedures and triggers
+
+Task: write all stored procedures, functions and triggers described in the task for your existing database from Lab 1, and implement their calls via backend that has been implemented in Lab 5.
