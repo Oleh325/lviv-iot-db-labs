@@ -1,7 +1,7 @@
-package ua.lviv.iot.dblabs.lab5.domain;
+package ua.lviv.iot.dblabs.lab6.domain;
 
-import ua.lviv.iot.dblabs.lab5.domain.enums.FuelType;
-import ua.lviv.iot.dblabs.lab5.domain.enums.TransmissionType;
+import ua.lviv.iot.dblabs.lab6.domain.enums.FuelType;
+import ua.lviv.iot.dblabs.lab6.domain.enums.TransmissionType;
 
 
 import javax.persistence.Entity;

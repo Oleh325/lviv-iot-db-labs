@@ -1,6 +1,6 @@
-package ua.lviv.iot.dblabs.lab5.domain;
+package ua.lviv.iot.dblabs.lab6.domain;
 
-import ua.lviv.iot.dblabs.lab5.domain.enums.PaymentType;
+import ua.lviv.iot.dblabs.lab6.domain.enums.PaymentType;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
